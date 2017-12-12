@@ -28,7 +28,50 @@ class Calculator extends Component{
 
         this.setState({
             display : (this.state.display.length < 13) ? display : this.state.display
-        })
+        });
+    }
+
+    setOperator(operator) {
+        if(!this.state.operator ) {
+            this.setState({operator : operator, temp: parseInt(this.state.display, 10), display: '0'});
+        }
+    }
+
+    calculate() {
+        if (this.state.operator === '') {
+            return; 
+        }
+
+        let result;
+
+        switch(this.state.operator) {
+            case '+' :
+                result = this.state.temp + parseInt(this.state.display, 10);
+                break;
+            case '-' :
+                result = this.state.temp - parseInt(this.state.display, 10);
+                break;
+            case '*' :
+                result = this.state.temp * parseInt(this.state.display, 10);
+                break;
+            case '/' :
+                result = this.state.temp / parseInt(this.state.display, 10);
+                break;
+            default :
+                break;
+        }
+
+        this.setState({display : String(result)});
+    }
+
+    clearDisplay() {
+        if(!this.state.resetDisplay) {
+            this.setState({display : '0', temp : 0, operator : '', resetDisplay: false});
+        } else {
+            this.setState({resetDisplay : false});
+        }
+
+        
     }
 
 
@@ -43,7 +86,7 @@ class Calculator extends Component{
                   <span className="total">  {this.state.display} </span>
                 </div>
           
-                <div className="btn clear"></div>
+                <div className="btn clear" onClick={() => this.clearDisplay()}></div>
 
                 <div className="btn zero" onClick={() => {this.setDisplay('0')}} ></div>
                 <div className="btn one" onClick={() => {this.setDisplay('1')}}  ></div>
@@ -56,11 +99,11 @@ class Calculator extends Component{
                 <div className="btn eight" onClick={() => {this.setDisplay('8')}}  ></div>
                 <div className="btn nine" onClick={() => {this.setDisplay('9')}}  ></div>
           
-                <div className="btn equal"></div>
-                <div className="btn multiply"></div>
-                <div className="btn divide"></div>
-                <div className="btn subtract"></div>
-                <div className="btn add"></div>
+                <div className="btn equal" onClick={() => {this.calculate('=')}}></div>
+                <div className="btn multiply" onClick={() => {this.setOperator('*')}}></div>
+                <div className="btn divide" onClick={() => {this.setOperator('/')}}></div>
+                <div className="btn subtract" onClick={() => {this.setOperator('-')}}></div>
+                <div className="btn add" onClick={() => {this.setOperator('+')}}></div>
               </div>
             </div>
           )
