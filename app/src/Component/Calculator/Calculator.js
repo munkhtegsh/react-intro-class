@@ -3,11 +3,22 @@ import calculatorImg from '../../calculator.png';
 // import default from '../../App';
 
 class Calculator extends Component{
+    constructor() {
+        super();
+        this.state = {
+            header : "Calculator"
+        }
+    }
+    updateHeader(val) {
+        this.setState({header : val});
+    }
+
+
     render() {
         return (
             <div id="calculator-container">
-              <input id="header-input"/>
-              <h1 id="header"> Calculator </h1>
+              <input id="header-input" onChange={(e) => {this.updateHeader(e.target.value)}} />
+              <h1 id="header"> {this.state.header} </h1>
               <img className="remove-highlight" src={calculatorImg} alt="calculator" />
               <div id="calculator-mask" className="remove-highlight">
                 <div className="output">
